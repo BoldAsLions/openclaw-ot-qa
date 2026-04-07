@@ -1,0 +1,30 @@
+# Environment — NEVER commit
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+coverage/
+
+# Test outputs
+reports/
+cypress/screenshots/
+cypress/videos/
+
+# k6 results
+k6-results/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# YubiKey — never commit challenge secrets
+*.yk
+yubikey.json
