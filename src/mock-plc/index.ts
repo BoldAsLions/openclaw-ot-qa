@@ -1,3 +1,5 @@
+import { execSync } from 'child_process'
+import crypto from 'crypto'
 import net from 'net'
 import * as Modbus from 'jsmodbus'
 import express from 'express'
@@ -115,13 +117,26 @@ function requireAuth(req: express.Request, res: express.Response, next: express.
   }
 }
 
-function requireYubikey(req: express.Request, res: express.Response, next: express.NextFunction) {
+function requireYubikey(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
   if (PLC_CONFIG.testMode) { next(); return }
-  const ykHeader = req.headers['x-yubikey-response']
-  if (!ykHeader) {
-    res.status(403).json({ error: 'YubiKey authorization required' }); return
+  try {
+    const challenge = crypto.randomBytes(8).toString('hex')
+    const response = execSync(
+      `ykman otp calculate 2 ${challenge}`,
+      { timeout: 15000, encoding: 'utf8' }
+    ).trim()
+    if (response && response.length > 0) {
+      next()
+    } else {
+      res.status(403).json({ error: 'YubiKey challenge failed' })
+    }
+  } catch {
+    res.status(403).json({ error: 'YubiKey touch required — touch your key and retry' })
   }
-  next()
 }
 
 const app = express()
