@@ -24,7 +24,7 @@ export const PLC_CONFIG = {
     initialTemp: 20,
   },
   jwt: {
-    secret: process.env.JWT_SECRET || 'dev-secret-change-in-production',
+    secret: process.env.JWT_SECRET || 'dev-secret',
     expiresIn: process.env.JWT_EXPIRES_IN || '1h',
   },
   testMode: process.env.TEST_MODE === 'true',
