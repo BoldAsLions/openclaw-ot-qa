@@ -17,17 +17,18 @@ const wait = (ms: number) => new Promise(r => setTimeout(r, ms))
 
 describe('Module 4 — OT Simulation', () => {
 
-  it('TC-OT1: Motor transitions STOPPED → STARTING → RUNNING', async () => {
-    await client.post('/reset', {}, { headers: auth() })
-    const res = await client.post('/coil',
-      { value: true },
-      { headers: { ...auth(), 'Content-Type': 'application/json' } }
-    )
-    expect(res.data.motorState).toBe('STARTING')
-    await wait(600)
-    const status = await client.get('/status')
-    expect(status.data.motorState).toBe('RUNNING')
-  })
+it('TC-OT1: Motor transitions STOPPED → STARTING → RUNNING', async () => {
+  await client.post('/reset', {}, { headers: auth() })
+  await wait(600)  // ← add this line
+  const res = await client.post('/coil',
+    { value: true },
+    { headers: { ...auth(), 'Content-Type': 'application/json' } }
+  )
+  expect(res.data.motorState).toBe('STARTING')
+  await wait(600)
+  const status = await client.get('/status')
+  expect(status.data.motorState).toBe('RUNNING')
+})
 
   it('TC-OT2: Motor transitions RUNNING → STOPPING → STOPPED', async () => {
     const status = await client.get('/status')
