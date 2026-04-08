@@ -142,6 +142,7 @@ export default function App() {
         <h2 style={{ color: '#a0aec0', fontSize: 12, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 16 }}>Controls</h2>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-start' }}>
           <button
+            data-testid="coil-toggle"
             onClick={toggleCoil}
             style={{ padding: '10px 24px', borderRadius: 8, border: 'none', cursor: 'pointer', fontFamily: 'monospace', fontWeight: 'bold', fontSize: 14, background: status?.coil ? '#E53E3E' : '#38A169', color: 'white' }}
           >
