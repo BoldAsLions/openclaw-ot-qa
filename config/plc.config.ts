@@ -16,7 +16,7 @@ export const PLC_CONFIG = {
   },
   stateMachine: {
     transitionMs: 500,
-    watchdogMs: 10000,
+    watchdogMs: 60000,
   },
   thermal: {
     heatRatePerMs: 1 / 2000,
